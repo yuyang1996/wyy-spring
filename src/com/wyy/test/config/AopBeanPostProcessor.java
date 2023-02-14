@@ -25,12 +25,12 @@ public class AopBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessAfterInitialization(Object o) {
+        // 是否需要代理
         if (o.getClass().isAnnotationPresent(Aop.class)){
             Object proxy = Proxy.newProxyInstance(this.getClass().getClassLoader(), o.getClass().getInterfaces(), new InvocationHandler() {
                 @Override
                 public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                     System.out.println("这里是aop代码");
-                    System.out.println("执行aop逻辑");
                     return method.invoke(o, args);
                 }
             });
